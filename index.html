@@ -1,0 +1,1839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generation Fitness Gym | Transform Your Limits</title>
+  <link rel="icon" type="image/x-icon" href="Gym logo.jpg">
+
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --red: #dc2626;
+      --red-dark: #b91c1c;
+      --red-glow: rgba(220, 38, 38, 0.4);
+      --red-glow-strong: rgba(220, 38, 38, 0.6);
+      --black: #0a0a0a;
+      --black-2: #111111;
+      --black-3: #1a1a1a;
+      --black-4: #222222;
+      --white: #ffffff;
+      --gray: #888888;
+      --gray-light: #bbbbbb;
+      --font-display: 'Bebas Neue', cursive;
+      --font-heading: 'Oswald', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--red-dark); }
+
+    /* ==================== PRELOADER ==================== */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: var(--black);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .preloader-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 30px;
+      animation: pulseGlow 1.2s ease-in-out infinite;
+    }
+    .preloader-bar-wrap {
+      width: 200px;
+      height: 4px;
+      background: var(--black-3);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .preloader-bar {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--red), #ef4444);
+      border-radius: 4px;
+      animation: loadBar 2s ease-in-out forwards;
+    }
+    .preloader-text {
+      font-family: var(--font-heading);
+      font-size: 14px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-top: 16px;
+    }
+    @keyframes loadBar {
+      0% { width: 0; }
+      50% { width: 70%; }
+      100% { width: 100%; }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 20px var(--red-glow); }
+      50% { box-shadow: 0 0 40px var(--red-glow-strong); }
+    }
+
+    /* ==================== NAVBAR ==================== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
+      padding: 18px 0;
+      transition: all var(--transition);
+      background: transparent;
+    }
+    .navbar.scrolled {
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(220, 38, 38, 0.15);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    }
+    .navbar .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .nav-logo img {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--red);
+      transition: transform var(--transition);
+    }
+    .nav-logo:hover img { transform: scale(1.08); }
+    .nav-logo span {
+      font-family: var(--font-display);
+      font-size: 26px;
+      letter-spacing: 2px;
+      color: var(--white);
+      line-height: 1;
+    }
+    .nav-logo span span { color: var(--red); }
+
+    .nav-links { display: flex; list-style: none; align-items: center; gap: 28px; }
+    .nav-links a {
+      color: var(--gray-light);
+      text-decoration: none;
+      font-family: var(--font-heading);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      position: relative;
+      padding: 4px 0;
+      transition: color var(--transition);
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--red);
+      transition: width var(--transition);
+      box-shadow: 0 0 10px var(--red-glow);
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      background: var(--red);
+      color: var(--white) !important;
+      padding: 8px 22px !important;
+      border-radius: 4px;
+      transition: all var(--transition) !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover {
+      background: var(--red-dark) !important;
+      box-shadow: 0 0 25px var(--red-glow);
+      transform: scale(1.05);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 26px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: all var(--transition);
+    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    @media (max-width: 900px) {
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: rgba(10, 10, 10, 0.98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: center;
+        gap: 32px;
+        padding: 40px;
+        transition: right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        border-left: 1px solid rgba(220, 38, 38, 0.15);
+      }
+      .nav-links.open { right: 0; }
+      .nav-links a { font-size: 16px; }
+      .hamburger { display: flex; }
+    }
+
+    /* ==================== HERO ==================== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: url('https://images.pexels.com/photos/16966364/pexels-photo-16966364.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop') center center / cover no-repeat;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.55) 50%, rgba(220,38,38,0.2) 100%);
+    }
+    .hero-graphic {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .hero-graphic .circle-1 {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      border: 1px solid rgba(220,38,38,0.08);
+      top: -100px;
+      right: -100px;
+      animation: rotateSlow 40s linear infinite;
+    }
+    .hero-graphic .circle-2 {
+      position: absolute;
+      width: 800px;
+      height: 800px;
+      border-radius: 50%;
+      border: 1px solid rgba(220,38,38,0.05);
+      bottom: -200px;
+      left: -200px;
+      animation: rotateSlow 60s linear infinite reverse;
+    }
+    .hero-graphic .circle-3 {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      border: 1px solid rgba(220,38,38,0.06);
+      top: 40%;
+      left: 10%;
+      animation: rotateSlow 30s linear infinite;
+    }
+    .hero-graphic .bar {
+      position: absolute;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(220,38,38,0.1), transparent);
+      width: 60%;
+      top: 30%;
+      left: 20%;
+      transform: rotate(-15deg);
+    }
+    .hero-graphic .bar-2 {
+      position: absolute;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(220,38,38,0.08), transparent);
+      width: 40%;
+      bottom: 25%;
+      right: 10%;
+      transform: rotate(10deg);
+    }
+    @keyframes rotateSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .hero-overlay::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 150px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+    }
+    .hero-overlay::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 150px;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 850px;
+      padding: 0 24px;
+    }
+    .hero-logo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 24px;
+      border: 3px solid var(--red);
+      box-shadow: 0 0 40px var(--red-glow);
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .hero-subtitle-top {
+      font-family: var(--font-heading);
+      font-size: 14px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 12px;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(60px, 10vw, 120px);
+      line-height: 0.9;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    .hero-title .highlight {
+      color: var(--red);
+      text-shadow: 0 0 30px var(--red-glow);
+    }
+    .hero-desc {
+      font-size: 18px;
+      color: var(--gray-light);
+      max-width: 600px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 36px;
+      font-family: var(--font-heading);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 4px;
+      cursor: pointer;
+      border: none;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary {
+      background: var(--red);
+      color: var(--white);
+    }
+    .btn-primary:hover {
+      background: var(--red-dark);
+      box-shadow: 0 0 35px var(--red-glow-strong);
+      transform: translateY(-2px);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid var(--red);
+    }
+    .btn-outline:hover {
+      background: var(--red);
+      box-shadow: 0 0 35px var(--red-glow);
+      transform: translateY(-2px);
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--gray);
+      font-family: var(--font-heading);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--red), transparent);
+      animation: scrollDown 2s ease-in-out infinite;
+    }
+    @keyframes scrollDown {
+      0% { opacity: 1; transform: scaleY(0); transform-origin: top; }
+      50% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+      50.1% { transform-origin: bottom; }
+      100% { opacity: 0; transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* ==================== SECTION COMMON ==================== */
+    section {
+      padding: 100px 24px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-tag {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 6vw, 64px);
+      line-height: 1;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    .section-title .highlight { color: var(--red); }
+    .section-desc {
+      font-size: 16px;
+      color: var(--gray);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+
+    /* ==================== ABOUT ==================== */
+    .about {
+      background: var(--black-2);
+      position: relative;
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .about-image {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .about-image img {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: transform 0.6s ease;
+    }
+    .about-image:hover img { transform: scale(1.03); }
+    .about-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      border: 1px solid rgba(220, 38, 38, 0.2);
+    }
+    .about-image .glow-border {
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--red), transparent, var(--red));
+      opacity: 0.3;
+      z-index: -1;
+    }
+    .about-text h3 {
+      font-family: var(--font-heading);
+      font-size: 24px;
+      margin-bottom: 16px;
+      color: var(--white);
+    }
+    .about-text p {
+      color: var(--gray);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .stat-card {
+      text-align: center;
+      padding: 28px 16px;
+      background: var(--black-3);
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.04);
+      transition: all var(--transition);
+    }
+    .stat-card:hover {
+      border-color: rgba(220, 38, 38, 0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(220, 38, 38, 0.1);
+    }
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 42px;
+      color: var(--red);
+      line-height: 1;
+    }
+    .stat-label {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-top: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ==================== SERVICES ==================== */
+    .services {
+      background: var(--black);
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .service-card {
+      background: var(--black-3);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 8px;
+      padding: 40px 28px;
+      text-align: center;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--red), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+    .service-card:hover::before { transform: translateX(100%); }
+    .service-card:hover {
+      border-color: rgba(220, 38, 38, 0.25);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(220, 38, 38, 0.08);
+    }
+    .service-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(220, 38, 38, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 26px;
+      color: var(--red);
+      transition: all var(--transition);
+    }
+    .service-card:hover .service-icon {
+      background: var(--red);
+      color: var(--white);
+      box-shadow: 0 0 30px var(--red-glow);
+    }
+    .service-card h3 {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      margin-bottom: 12px;
+      color: var(--white);
+    }
+    .service-card p {
+      color: var(--gray);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 900px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 550px) { .services-grid { grid-template-columns: 1fr; } }
+
+    /* ==================== TRAINERS ==================== */
+    .trainers {
+      background: var(--black-2);
+    }
+    .trainers-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .trainer-card {
+      background: var(--black-3);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.04);
+      transition: all var(--transition);
+      position: relative;
+    }
+    .trainer-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(220, 38, 38, 0.25);
+      box-shadow: 0 12px 40px rgba(220, 38, 38, 0.08);
+    }
+    .trainer-img-wrap {
+      height: 260px;
+      overflow: hidden;
+      position: relative;
+    }
+    .trainer-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .trainer-card:hover .trainer-img-wrap img { transform: scale(1.08); }
+    .trainer-img-wrap::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60%;
+      background: linear-gradient(to top, var(--black-3), transparent);
+    }
+    .trainer-socials {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      z-index: 2;
+      display: flex;
+      gap: 10px;
+      opacity: 0;
+      transition: all var(--transition);
+    }
+    .trainer-card:hover .trainer-socials {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .trainer-socials a {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--red);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 14px;
+      transition: all var(--transition);
+    }
+    .trainer-socials a:hover {
+      background: var(--white);
+      color: var(--red);
+      transform: scale(1.12);
+    }
+    .trainer-info {
+      padding: 20px;
+      text-align: center;
+    }
+    .trainer-info h4 {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .trainer-info span {
+      font-size: 13px;
+      color: var(--red);
+      font-weight: 500;
+    }
+
+    @media (max-width: 900px) { .trainers-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .trainers-grid { grid-template-columns: 1fr; } }
+
+    /* ==================== MEMBERSHIP ==================== */
+    .membership {
+      background: var(--black);
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      align-items: start;
+    }
+    .pricing-card {
+      background: var(--black-3);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 40px 32px;
+      text-align: center;
+      position: relative;
+      transition: all var(--transition);
+      overflow: hidden;
+    }
+    .pricing-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(220, 38, 38, 0.2);
+      box-shadow: 0 12px 40px rgba(220, 38, 38, 0.06);
+    }
+    .pricing-card.popular {
+      border-color: var(--red);
+      background: var(--black-4);
+      transform: scale(1.03);
+      box-shadow: 0 0 40px rgba(220, 38, 38, 0.08);
+    }
+    .pricing-card.popular:hover { transform: scale(1.03) translateY(-6px); }
+    .popular-badge {
+      position: absolute;
+      top: 16px;
+      right: -32px;
+      background: var(--red);
+      color: var(--white);
+      font-family: var(--font-heading);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 40px;
+      transform: rotate(45deg);
+      box-shadow: 0 2px 10px rgba(220, 38, 38, 0.4);
+    }
+    .pricing-card .plan-name {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 4px;
+    }
+    .pricing-card .price {
+      font-family: var(--font-display);
+      font-size: 52px;
+      color: var(--white);
+      line-height: 1;
+      margin: 12px 0;
+    }
+    .pricing-card .price span {
+      font-size: 20px;
+      color: var(--gray);
+    }
+    .pricing-card .price-note {
+      font-size: 13px;
+      color: var(--gray);
+      margin-bottom: 24px;
+    }
+    .pricing-card ul {
+      list-style: none;
+      text-align: left;
+      margin-bottom: 28px;
+    }
+    .pricing-card ul li {
+      padding: 10px 0;
+      color: var(--gray-light);
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .pricing-card ul li:last-child { border-bottom: none; }
+    .pricing-card ul li i {
+      color: var(--red);
+      font-size: 12px;
+      width: 18px;
+    }
+    .pricing-card ul li .fa-times { color: var(--gray); opacity: 0.4; }
+    .pricing-card .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    @media (max-width: 900px) {
+      .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+      .pricing-card.popular { transform: none; }
+      .pricing-card.popular:hover { transform: translateY(-6px); }
+    }
+
+    /* ==================== GALLERY ==================== */
+    .gallery {
+      background: var(--black-2);
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 260px;
+      gap: 14px;
+    }
+    .gallery-grid .gallery-item:nth-child(1) { grid-row: span 2; }
+    .gallery-grid .gallery-item:nth-child(4) { grid-column: span 2; }
+    .gallery-item {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+      display: block;
+    }
+    .gallery-item:hover img { transform: scale(1.08); }
+    .gallery-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(220, 38, 38, 0.08);
+      border-radius: 8px;
+      pointer-events: none;
+    }
+    .gallery-item:hover::after { border-color: rgba(220, 38, 38, 0.3); }
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-overlay i {
+      font-size: 28px;
+      color: var(--white);
+      text-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+    .gallery-overlay span {
+      font-family: var(--font-heading);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray-light);
+    }
+
+    @media (max-width: 768px) {
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 200px;
+      }
+      .gallery-grid .gallery-item:nth-child(1),
+      .gallery-grid .gallery-item:nth-child(4) { grid-row: auto; grid-column: auto; }
+    }
+    @media (max-width: 500px) {
+      .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 220px; }
+    }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: rgba(0,0,0,0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
+      padding: 40px;
+    }
+    .lightbox.open { opacity: 1; visibility: visible; }
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 85vh;
+      border-radius: 8px;
+      object-fit: contain;
+      transform: scale(0.9);
+      transition: transform 0.4s ease;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .lightbox.open img { transform: scale(1); }
+    .lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      color: var(--white);
+      font-size: 36px;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity var(--transition);
+      background: none;
+      border: none;
+    }
+    .lightbox-close:hover { opacity: 1; }
+
+    /* ==================== TESTIMONIALS ==================== */
+    .testimonials {
+      background: var(--black);
+    }
+    .testimonials .swiper {
+      padding: 20px 4px 40px;
+    }
+    .testimonial-card {
+      background: var(--black-3);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 10px;
+      padding: 36px 32px;
+      text-align: center;
+      transition: all var(--transition);
+      user-select: none;
+    }
+    .testimonial-card:hover {
+      border-color: rgba(220, 38, 38, 0.2);
+      box-shadow: 0 8px 30px rgba(220, 38, 38, 0.04);
+    }
+    .testimonial-card .stars {
+      color: var(--red);
+      font-size: 14px;
+      margin-bottom: 16px;
+      letter-spacing: 3px;
+    }
+    .testimonial-card p {
+      color: var(--gray-light);
+      font-size: 15px;
+      line-height: 1.8;
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+    .testimonial-card .client {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .testimonial-card .client img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--red);
+    }
+    .testimonial-card .client h4 {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      color: var(--white);
+    }
+    .testimonial-card .client span {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    .swiper-pagination-bullet {
+      background: var(--gray) !important;
+      opacity: 0.5 !important;
+    }
+    .swiper-pagination-bullet-active {
+      background: var(--red) !important;
+      opacity: 1 !important;
+      box-shadow: 0 0 10px var(--red-glow);
+    }
+
+    /* ==================== BMI CALCULATOR ==================== */
+    .bmi {
+      background: var(--black-2);
+    }
+    .bmi-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .bmi-image {
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+    .bmi-image img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .bmi-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(220, 38, 38, 0.15);
+      border-radius: 8px;
+    }
+    .bmi-form {
+      background: var(--black-3);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 10px;
+      padding: 36px 32px;
+    }
+    .bmi-form h3 {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      margin-bottom: 20px;
+      color: var(--white);
+    }
+    .bmi-form .input-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .bmi-form label {
+      display: block;
+      font-family: var(--font-heading);
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 6px;
+    }
+    .bmi-form input {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--black);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px;
+      color: var(--white);
+      font-size: 16px;
+      font-family: var(--font-body);
+      transition: border-color var(--transition);
+    }
+    .bmi-form input:focus {
+      outline: none;
+      border-color: var(--red);
+      box-shadow: 0 0 15px rgba(220, 38, 38, 0.15);
+    }
+    .bmi-result {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 6px;
+      background: var(--black);
+      text-align: center;
+      display: none;
+    }
+    .bmi-result.show { display: block; }
+    .bmi-result .bmi-value {
+      font-family: var(--font-display);
+      font-size: 44px;
+      color: var(--red);
+      line-height: 1;
+    }
+    .bmi-result .bmi-category {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+    .bmi-result .bmi-category.underweight { color: #facc15; }
+    .bmi-result .bmi-category.normal { color: #22c55e; }
+    .bmi-result .bmi-category.overweight { color: #f97316; }
+    .bmi-result .bmi-category.obese { color: var(--red); }
+
+    @media (max-width: 768px) {
+      .bmi-wrap { grid-template-columns: 1fr; gap: 40px; }
+      .bmi-form .input-group { grid-template-columns: 1fr; }
+    }
+
+    /* ==================== CONTACT ==================== */
+    .contact {
+      background: var(--black);
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+    }
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .contact-item .icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(220, 38, 38, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--red);
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .contact-item h4 {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .contact-item p {
+      color: var(--gray);
+      font-size: 14px;
+    }
+
+    .contact-form {
+      background: var(--black-3);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 10px;
+      padding: 36px 32px;
+    }
+    .contact-form .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--black);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px;
+      color: var(--white);
+      font-size: 14px;
+      font-family: var(--font-body);
+      transition: border-color var(--transition);
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      border-color: var(--red);
+      box-shadow: 0 0 15px rgba(220, 38, 38, 0.15);
+    }
+    .contact-form textarea {
+      height: 120px;
+      resize: vertical;
+      margin-bottom: 16px;
+    }
+    .contact-form .btn { width: 100%; justify-content: center; }
+
+    .map-placeholder {
+      margin-top: 0;
+      width: 100%;
+      height: 220px;
+      border-radius: 8px;
+      background: var(--black-3);
+      border: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--gray);
+    }
+    .map-placeholder i { font-size: 32px; color: var(--red); }
+
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr; }
+      .contact-form .form-row { grid-template-columns: 1fr; }
+    }
+
+    .social-links {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .social-links a {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(220, 38, 38, 0.1);
+      color: var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 16px;
+      transition: all var(--transition);
+    }
+    .social-links a:hover {
+      background: var(--red);
+      color: var(--white);
+      transform: scale(1.1);
+      box-shadow: 0 0 25px var(--red-glow);
+    }
+
+    /* ==================== FOOTER ==================== */
+    .footer {
+      background: var(--black-2);
+      padding: 60px 24px 30px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .footer .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .footer-links a {
+      color: var(--gray);
+      text-decoration: none;
+      font-family: var(--font-heading);
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: color var(--transition);
+    }
+    .footer-links a:hover { color: var(--red); }
+    .footer-socials {
+      display: flex;
+      gap: 16px;
+    }
+    .footer-socials a {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--black-3);
+      color: var(--gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 15px;
+      transition: all var(--transition);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+    .footer-socials a:hover {
+      background: var(--red);
+      color: var(--white);
+      border-color: var(--red);
+      box-shadow: 0 0 20px var(--red-glow);
+    }
+    .footer-copy {
+      text-align: center;
+      color: var(--gray);
+      font-size: 13px;
+      opacity: 0.7;
+    }
+
+    /* ==================== RESPONSIVE ==================== */
+    @media (max-width: 480px) {
+      section { padding: 60px 16px; }
+      .hero-title { font-size: 48px; }
+      .hero-desc { font-size: 15px; }
+      .btn { padding: 12px 24px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== PRELOADER ========== -->
+  <div id="preloader">
+    <img src="Gym logo.jpg" alt="Iron Fitness Gym" class="preloader-logo">
+    <div class="preloader-bar-wrap">
+      <div class="preloader-bar"></div>
+    </div>
+    <div class="preloader-text">Forging Strength...</div>
+  </div>
+
+  <!-- ========== NAVBAR ========== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="#home" class="nav-logo">
+        <img src="Gym logo.jpg" alt="Logo">
+        <span>Generation <span>Fitness GYM</span></span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#membership">Membership</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#membership" class="nav-cta">Join Now</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-graphic">
+      <div class="circle-1"></div>
+      <div class="circle-2"></div>
+      <div class="circle-3"></div>
+      <div class="bar"></div>
+      <div class="bar-2"></div>
+    </div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+      <img src="Gym logo.jpg" alt="Iron Fitness Gym" class="hero-logo">
+      <p class="hero-subtitle-top">Unleash the Beast Within</p>
+      <h1 class="hero-title">
+        Forge Your<br><span class="highlight">Legend</span>
+      </h1>
+      <p class="hero-desc">
+        Transform your body, sharpen your mind, and conquer your limits at Iron Fitness Gym — where champions are built.
+      </p>
+      <div class="hero-btns">
+        <a href="#membership" class="btn btn-primary"><i class="fas fa-dumbbell"></i> Join Now</a>
+        <a href="#membership" class="btn btn-outline"><i class="fas fa-crown"></i> View Memberships</a>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ========== ABOUT ========== -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image" data-aos="fade-right" data-aos-duration="800">
+          <div class="glow-border"></div>
+          <img src="gym 6.jpg" alt="About Iron Fitness Gym">
+        </div>
+        <div class="about-text" data-aos="fade-left" data-aos-duration="800">
+          <p class="section-tag">About Us</p>
+          <h2 class="section-title">More Than Just <span class="highlight">A Gym</span></h2>
+          <p>
+            Iron Fitness Gym isn't just a place to lift weights — it's a brotherhood, a sisterhood, and a community driven by
+            purpose. We provide world-class equipment, expert trainers, and an electrifying atmosphere that pushes you beyond your limits.
+          </p>
+          <p>
+            Our mission is to empower every individual to unlock their full potential through fitness, discipline, and relentless determination. Whether you're a beginner or a seasoned athlete, Iron Fitness is your battlefield.
+          </p>
+        </div>
+      </div>
+
+    
+
+  <!-- ========== SERVICES ========== -->
+  <section class="services" id="services">
+    <div class="container">
+      <div data-aos="fade-up" data-aos-duration="600">
+        <p class="section-tag">What We Offer</p>
+        <h2 class="section-title">Premium <span class="highlight">Services</span></h2>
+        <p class="section-desc">
+          From strength training to nutrition coaching, every service is designed to forge elite athletes.
+        </p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card" data-aos="fade-up" data-aos-delay="0">
+          <div class="service-icon"><i class="fas fa-dumbbell"></i></div>
+          <h3>Weight Training</h3>
+          <p>State-of-the-art free weights and machines to build raw strength and muscle mass.</p>
+        </div>
+        <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="service-icon"><i class="fas fa-heartbeat"></i></div>
+          <h3>Cardio Training</h3>
+          <p>High-intensity cardio zones with treadmills, bikes, rowers, and HIIT rigs.</p>
+        </div>
+        <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="service-icon"><i class="fas fa-user-tie"></i></div>
+          <h3>Personal Training</h3>
+          <p>One-on-one coaching with certified trainers who build custom programs for your goals.</p>
+        </div>
+        <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="service-icon"><i class="fas fa-fire"></i></div>
+          <h3>CrossFit</h3>
+          <p>Intense functional fitness classes combining weightlifting, cardio, and gymnastics.</p>
+        </div>
+        <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+          <div class="service-icon"><i class="fas fa-running"></i></div>
+          <h3>Functional Training</h3>
+          <p>Real-world movement training to improve agility, balance, and everyday performance.</p>
+        </div>
+        <div class="service-card" data-aos="fade-up" data-aos-delay="500">
+          <div class="service-icon"><i class="fas fa-apple-alt"></i></div>
+          <h3>Nutrition Guidance</h3>
+          <p>Expert meal planning and nutritional advice to fuel your performance and recovery.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========== MEMBERSHIP ========== -->
+  <section class="membership" id="membership">
+    <div class="container">
+      <div data-aos="fade-up" data-aos-duration="600">
+        <p class="section-tag">Pricing</p>
+        <h2 class="section-title">Choose Your <span class="highlight">Weapon</span></h2>
+        <p class="section-desc">Flexible plans built for every fitness journey. No hidden fees, just results.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card" data-aos="fade-up" data-aos-delay="0">
+          <p class="plan-name">Basic</p>
+          <div class="price">Rs 1,500<span>/mo</span></div>
+          <p class="price-note">Registration Fee: Rs 500 (one-time)</p>
+          <ul>
+            <li><i class="fas fa-check"></i> Gym Access</li>
+            <li><i class="fas fa-check"></i> Cardio Included</li>
+            <li><i class="fas fa-times"></i> Personal Trainer</li>
+            <li><i class="fas fa-times"></i> CrossFit Classes</li>
+            <li><i class="fas fa-times"></i> Nutrition Guidance</li>
+          </ul>
+          <a href="#" class="btn btn-outline">Get Started</a>
+        </div>
+
+        <div class="pricing-card" data-aos="fade-up" data-aos-delay="100">
+          <p class="plan-name">Standard</p>
+          <div class="price">Rs 2,500<span>/mo</span></div>
+          <p class="price-note">Registration Fee: Rs 500 (one-time)</p>
+          <ul>
+            <li><i class="fas fa-check"></i> Gym Access</li>
+            <li><i class="fas fa-check"></i> Cardio Included</li>
+            <li><i class="fas fa-check"></i> Group Classes</li>
+            <li><i class="fas fa-times"></i> Basic Trainingr</li>
+            <li><i class="fas fa-times"></i> Nutrition Guidance</li>
+          </ul>
+          <a href="#" class="btn btn-outline">Get Started</a>
+        </div>
+
+        <div class="pricing-card popular" data-aos="fade-up" data-aos-delay="200">
+          <div class="popular-badge">Most Popular</div>
+          <p class="plan-name">Premium</p>
+          <div class="price">Rs 8,000<span>/mo</span></div>
+          <p class="price-note">No extra charges — all-inclusive</p>
+          <ul>
+            <li><i class="fas fa-check"></i> Full Gym Access</li>
+            <li><i class="fas fa-check"></i> Cardio & HIIT Zones</li>
+            <li><i class="fas fa-check"></i> Personal Trainer</li>
+            <li><i class="fas fa-check"></i> CrossFit & Functional</li>
+            <li><i class="fas fa-check"></i> Nutrition Guidance</li>
+            <li><i class="fas fa-check"></i> Premium Support</li>
+          </ul>
+          <a href="#" class="btn btn-primary">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== GALLERY ========== -->
+  <section class="gallery" id="gallery">
+    <div class="container">
+      <div data-aos="fade-up" data-aos-duration="600">
+        <p class="section-tag">Gallery</p>
+        <h2 class="section-title">Inside <span class="highlight">GenerationFitness</span></h2>
+        <p class="section-desc">Step inside our premium facility and see where champions train.</p>
+      </div>
+      <div class="gallery-grid" data-aos="fade-up" data-aos-duration="800">
+        <div class="gallery-item"><img src="Gym 1.webp" alt="Gym"><div class="gallery-overlay"><i class="fas fa-expand"></i><span>View</span></div></div>
+        <div class="gallery-item"><img src="gym 2.webp" alt="Gym"><div class="gallery-overlay"><i class="fas fa-expand"></i><span>View</span></div></div>
+        <div class="gallery-item"><img src="gym 3.webp" alt="Gym"><div class="gallery-overlay"><i class="fas fa-expand"></i><span>View</span></div></div>
+        <div class="gallery-item"><img src="gym 4.webp" alt="Gym"><div class="gallery-overlay"><i class="fas fa-expand"></i><span>View</span></div></div>
+        <div class="gallery-item"><img src="gym 5.jpg" alt="Gym"><div class="gallery-overlay"><i class="fas fa-expand"></i><span>View</span></div></div>
+        <div class="gallery-item"><img src="gym 6.jpg" alt="Gym"><div class="gallery-overlay"><i class="fas fa-expand"></i><span>View</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose">&times;</button>
+    <img id="lightboxImg" src="" alt="Gallery">
+  </div>
+
+
+
+  <!-- ========== BMI CALCULATOR ========== -->
+  <section class="bmi" id="bmi">
+    <div class="container">
+      <div data-aos="fade-up" data-aos-duration="600">
+        <p class="section-tag">Health Tool</p>
+        <h2 class="section-title">BMI <span class="highlight">Calculator</span></h2>
+        <p class="section-desc">Know your numbers. Track your progress. Transform your body.</p>
+      </div>
+      <div class="bmi-wrap">
+        <div class="bmi-image" data-aos="fade-right" data-aos-duration="800">
+          <img src="https://images.pexels.com/photos/16966364/pexels-photo-16966364.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop" alt="BMI Calculator">
+        </div>
+        <div class="bmi-form" data-aos="fade-left" data-aos-duration="800">
+          <h3>Calculate Your BMI</h3>
+          <div class="input-group">
+            <div>
+              <label>Weight (kg)</label>
+              <input type="number" id="weight" placeholder="e.g. 75" min="1" step="0.1">
+            </div>
+            <div>
+              <label>Height (cm)</label>
+              <input type="number" id="height" placeholder="e.g. 175" min="1" step="0.1">
+            </div>
+          </div>
+          <button class="btn btn-primary" id="calcBmi" style="width:100%;justify-content:center;">
+            <i class="fas fa-calculator"></i> Calculate BMI
+          </button>
+          <div class="bmi-result" id="bmiResult">
+            <div class="bmi-value" id="bmiValue">0</div>
+            <div class="bmi-category" id="bmiCategory">Normal</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CONTACT ========== -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div data-aos="fade-up" data-aos-duration="600">
+        <p class="section-tag">Get In Touch</p>
+        <h2 class="section-title">Contact <span class="highlight">Us</span></h2>
+        <p class="section-desc">Ready to start your transformation? Reach out and let's forge your future.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info" data-aos="fade-right" data-aos-duration="800">
+          <div class="contact-item">
+            <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div>
+              <h4>Location</h4>
+              <p>Chattha, near Milad Chowk<br>Bakhtawar, Islamabad, 44000</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="icon"><i class="fas fa-phone-alt"></i></div>
+            <div>
+              <h4>Phone</h4>
+              <p>+92 3125460998</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="icon"><i class="fas fa-envelope"></i></div>
+            <div>
+              <h4>Email</h4>
+              <p>info@GenerationFitness.com</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="icon"><i class="fas fa-clock"></i></div>
+            <div>
+              <h4>Hours</h4>
+              <p>Mon - Sat: 5 AM - 11 PM<br></p>
+            </div>
+          </div>
+
+        </div>
+        <div class="contact-form" data-aos="fade-left" data-aos-duration="800">
+          <div class="form-row">
+            <input type="text" placeholder="Your Name">
+            <input type="email" placeholder="Your Email">
+          </div>
+          <div class="form-row">
+            <input type="tel" placeholder="Phone Number">
+            <input type="text" placeholder="Subject">
+          </div>
+          <textarea placeholder="Your Message"></textarea>
+          <button class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send Message</button>
+        </div>
+      </div>
+      <div style="margin-top:48px; border-radius:8px; overflow:hidden; border:1px solid rgba(255,255,255,0.06);" data-aos="fade-up" data-aos-duration="600">
+        <iframe src="https://www.google.com/maps?q=Chattha+Milad+Chowk+Bakhtawar+Islamabad+44000&output=embed" width="100%" height="300" style="border:0; display:block;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#trainers">Trainers</a>
+        <a href="#membership">Membership</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#bmi">BMI Calculator</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <div class="footer-copy">
+        &copy; 2026 GenerationFitness Gym. All rights reserved. Built with <span style="color:var(--red);">&#10084;</span> for the strong.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    // ===== PRELOADER =====
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('preloader').classList.add('hidden');
+      }, 2200);
+    });
+
+    // ===== AOS INIT =====
+    AOS.init({
+      once: true,
+      duration: 700,
+      easing: 'ease-out-cubic',
+      offset: 80,
+    });
+
+    // ===== NAVBAR =====
+    const navbar = document.getElementById('navbar');
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navLinks.classList.toggle('open');
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navLinks.classList.remove('open');
+      });
+    });
+
+    // ===== ANIMATED COUNTERS =====
+    const counters = document.querySelectorAll('.stat-number');
+    let countersAnimated = false;
+
+    function animateCounters() {
+      if (countersAnimated) return;
+      countersAnimated = true;
+      counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-target'));
+        const increment = target / 60;
+        let current = 0;
+        const update = () => {
+          current += increment;
+          if (current < target) {
+            counter.textContent = Math.ceil(current);
+            requestAnimationFrame(update);
+          } else {
+            counter.textContent = target + (target >= 1000 ? '+' : '+');
+          }
+        };
+        update();
+      });
+    }
+
+    // ===== SWIPER TESTIMONIALS =====
+    new Swiper('.testimonialSwiper', {
+      slidesPerView: 1,
+      spaceBetween: 24,
+      loop: true,
+      autoplay: { delay: 4000, disableOnInteraction: false },
+      pagination: { el: '.swiper-pagination', clickable: true },
+      breakpoints: {
+        640: { slidesPerView: 1 },
+        768: { slidesPerView: 2 },
+        1024: { slidesPerView: 2 },
+      },
+    });
+
+    // ===== GALLERY LIGHTBOX =====
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxClose = document.getElementById('lightboxClose');
+
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const img = item.querySelector('img');
+        lightboxImg.src = img.src;
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // ===== BMI CALCULATOR =====
+    document.getElementById('calcBmi').addEventListener('click', () => {
+      const weight = parseFloat(document.getElementById('weight').value);
+      const height = parseFloat(document.getElementById('height').value);
+      const result = document.getElementById('bmiResult');
+      const valueEl = document.getElementById('bmiValue');
+      const catEl = document.getElementById('bmiCategory');
+
+      if (!weight || !height || weight <= 0 || height <= 0) {
+        result.classList.add('show');
+        valueEl.textContent = '--';
+        catEl.textContent = 'Enter valid values';
+        catEl.className = 'bmi-category';
+        return;
+      }
+
+      const bmi = weight / ((height / 100) ** 2);
+      valueEl.textContent = bmi.toFixed(1);
+      result.classList.add('show');
+
+      let category, cls;
+      if (bmi < 18.5) { category = 'Underweight'; cls = 'underweight'; }
+      else if (bmi < 25) { category = 'Normal Weight'; cls = 'normal'; }
+      else if (bmi < 30) { category = 'Overweight'; cls = 'overweight'; }
+      else { category = 'Obese'; cls = 'obese'; }
+
+      catEl.textContent = category;
+      catEl.className = 'bmi-category ' + cls;
+    });
+
+    // Enter key support for BMI
+    document.querySelectorAll('.bmi-form input').forEach(inp => {
+      inp.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') document.getElementById('calcBmi').click();
+      });
+    });
+
+    // ===== SCROLL-BASED COUNTER TRIGGER =====
+    const aboutSection = document.getElementById('about');
+    const aboutObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounters();
+          aboutObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.4 });
+    aboutObserver.observe(aboutSection);
+
+    // ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
